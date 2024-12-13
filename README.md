@@ -248,7 +248,7 @@ sns.barplot(
   ax=ax[1],
   legend=False
 )
-ax[1].set_title("Top 10 Most In-Deman Skills for Data Analysts")
+ax[1].set_title("Top 10 Most In-Demand Skills for Data Analysts")
 ax[1].set_ylabel("")
 ax[1].set_xlabel("Median Salary (USD)")
 ax[1].xaxis.set_major_formatter(plt.FuncFormatter(lambda val, _: f"${int(val/1000)}K"))
@@ -268,9 +268,9 @@ _Two separate bar graphs visualizing the highest paid skills and most in-demand 
 
 #### Insights:
 
-- The top graph shows specialized technical skills like `dplyr`, `Bitbucket`, and `Gitlab` are associated with higher salaries, some reaching up to $200K, suggesting that advanced technical proficiency can increase earning potential.
+- The top graph shows specialized technical skills like `Github`, `Terraform`, and `Bigquery` are associated with higher salaries, some reaching up to $200K, suggesting that advanced technical proficiency can increase earning potential.
 
-- The bottom graph highlights that foundational skills like `Excel`, `PowerPoint`, and `SQL` are the most in-demand, even though they may not offer the highest salaries. This demonstrates the importance of these core skills for employability in data analysis roles.
+- The bottom graph highlights that foundational skills like `SQL`, `Python`, and `Tableau` are the most in-demand, even though they may not offer the highest salaries. This demonstrates the importance of these core skills for employability in data analysis roles.
 
 - There's a clear distinction between the skills that are highest paid and those that are most in-demand. Data analysts aiming to maximize their career potential should consider developing a diverse skill set that includes both high-paying specialized skills and widely demanded foundational skills.
 
