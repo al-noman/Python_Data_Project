@@ -50,7 +50,7 @@ df['job_posted_date'] = pd.to_datetime(df['job_posted_date'])
 df['job_skills'] = df['job_skills'].apply(lambda x: ast.literal_eval(x) if pd.notna(x) else x)
 ```
 
-## Filter US Jobs
+## Filter Germany Jobs
 
 To focus my analysis on the German job market, I apply filters to the dataset, narrowing down to roles based in Germany.
 
@@ -67,7 +67,7 @@ Each Jupyter notebook for this project aimed at investigating specific aspects o
 
 To find the most demanded skills for the top 4 most popular data roles. I filtered out those positions by which ones were the most popular, and got the top 5 skills for these top 4 roles. This query highlights the most popular job titles and their top skills, showing which skills I should pay attention to depending on the role I'm targeting.
 
-View my notebook with detailed steps here: [2_Skills_Demand](2_Skills_Demand.ipynb).
+View my notebook with detailed steps here: [2_Skills_Demand](3_Project/2_Skills_Demand.ipynb).
 
 ### Visualize Data
 
@@ -86,7 +86,7 @@ plt.show()
 
 ### Results
 
-![Likelihood of Skills Requested in the German Job Postings](images/Likelihood_of_Skills_Requested_in_German_Job_Postings.png)
+![Likelihood of Skills Requested in the German Job Postings](3_Project/images/Likelihood_of_Skills_Requested_in_German_Job_Postings.png)
 
 _Bar graph visualizing the salary for the top 4 data roles and their top 5 skills associated with each._
 
@@ -100,7 +100,7 @@ _Bar graph visualizing the salary for the top 4 data roles and their top 5 skill
 
 To find how skills are trending in 2023 for Data Analysts, I filtered data analyst positions and grouped the skills by the month of the job postings. This got me the top 5 skills of data analysts by month, showing how popular skills were throughout 2023.
 
-View my notebook with detailed steps here: [3_Skills_Trend](3_Skills_Trend.ipynb).
+View my notebook with detailed steps here: [3_Skills_Trend](3_Project/3_Skills_Trend.ipynb).
 
 ### Visualize Data
 
@@ -118,7 +118,7 @@ plt.show()
 
 ### Results
 
-![Trending Top Skills for Data Analysts in Germany](images/Trending_Top_Skills_for_Data_Analysts_in_Germany.png)  
+![Trending Top Skills for Data Analysts in Germany](3_Project/images/Trending_Top_Skills_for_Data_Analysts_in_Germany.png)  
 _Bar graph visualizing the trending top skills for data analysts in Germany in 2023._
 
 ### Insights:
@@ -148,51 +148,112 @@ _Bar graph visualizing the trending top skills for data analysts in Germany in 2
   SQL and Python show a dip during the late summer months (around August/September).
   Tools like Excel, Power BI, and Tableau show slight increases during the same period, possibly reflecting shifts in job requirements or hiring trends.
 
-## 3. How well do jobs and skills pay for Data Analysts?
+## 3. How well do jobs and skills pay for Data Analyst?
 
-To identify the highest-paying roles and skills, I only got jobs in the United States and looked at their median salary. But first I looked at the salary distributions of common data jobs like Data Scientist, Data Engineer, and Data Analyst, to get an idea of which jobs are paid the most.
+To identify the highest-paying roles and skills, I only got jobs in Germany and looked at their median salary. But first I looked at the salary distributions of common data jobs like Data Scientist, Data Engineer, and Data Analyst, to get an idea of which jobs are paid the most.
 
-View my notebook with detailed steps here: [4_Salary_Analysis](4_Salary_Analysis.ipynb).
+View my notebook with detailed steps here: [4_Salary_Analysis](3_Project/4_Salary_Analysis.ipynb).
 
 #### Visualize Data
 
-```python
-sns.boxplot(data=df_US_top6, x='salary_year_avg', y='job_title_short', order=job_order)
+```
+sns.boxplot(df_de_jobs, x="salary_year_avg", y="job_title_short", order=job_order)
 
-ticks_x = plt.FuncFormatter(lambda y, pos: f'${int(y/1000)}K')
-plt.gca().xaxis.set_major_formatter(ticks_x)
+ax = plt.gca()
+ax.get_xaxis().set_major_formatter(plt.FuncFormatter(lambda val, _: f"${int(val/1000)}K"))
+plt.ylabel("")
+plt.xlabel("Yearly Salary (USD)")
+plt.xlim((0, 300_000))
 plt.show()
 
 ```
 
 #### Results
 
-![Salary Distributions of Data Jobs in the US](images/Salary_Distributions_of_Data_Jobs_in_the_US.png)  
+![Salary Distributions of Data Jobs in Germany](3_Project/images/Salary_Distributions_of_Data_Jobs_in_Germany.png)  
 _Box plot visualizing the salary distributions for the top 6 data job titles._
 
 #### Insights
 
-- There's a significant variation in salary ranges across different job titles. Senior Data Scientist positions tend to have the highest salary potential, with up to $600K, indicating the high value placed on advanced data skills and experience in the industry.
+- Data Analyst:
+  Median Salary: The lowest among the roles, around $50,000–$60,000.
+  Range: Salaries vary widely, with some outliers reaching up to $100,000.
 
-- Senior Data Engineer and Senior Data Scientist roles show a considerable number of outliers on the higher end of the salary spectrum, suggesting that exceptional skills or circumstances can lead to high pay in these roles. In contrast, Data Analyst roles demonstrate more consistency in salary, with fewer outliers.
+- Senior Data Analyst:
+  Median Salary: Higher than Data Analysts, around $80,000–$90,000.
+  Range: Smaller spread compared to Data Analysts, with fewer outliers.
 
-- The median salaries increase with the seniority and specialization of the roles. Senior roles (Senior Data Scientist, Senior Data Engineer) not only have higher median salaries but also larger differences in typical salaries, reflecting greater variance in compensation as responsibilities increase.
+- Data Scientist:
+  Median Salary: Around $110,000, showing a significant jump from Senior Data Analysts.
+  Range: Wide spread from $80,000 to $150,000, with some outliers above $200,000.
 
-### Highest Paid & Most Demanded Skills for Data Analysts
+- Senior Data Scientist:
+  Median Salary: Among the highest, around $130,000–$140,000.
+  Range: A tighter distribution compared to Data Scientists but with notable outliers above $200,000.
+
+- Data Engineer:
+  Median Salary: Comparable to Data Scientists, around $110,000.
+  Range: Wide salary distribution, similar to Data Scientists.
+
+- Senior Data Engineer:
+  Median Salary: Slightly higher than Data Engineers, around $125,000–$135,000.
+  Range: A relatively narrower spread compared to Data Engineers.
+
+General Observations:
+
+- Salary Progression:
+  There's a clear trend where senior roles (Senior Data Analyst, Senior Data Scientist, Senior Data Engineer) earn significantly more than their junior counterparts.
+- Data Scientists and Engineers:
+  that of Senior Data Scientists.
+- Outliers:
+  High outliers are present in most roles, particularly for Data Scientist and Senior Data Scientist roles, suggesting occasional exceptionally high salaries.
+- Roles with the Most Variation:
+  Data Engineers and Data Scientists have the widest salary ranges, indicating a mix of junior to highly experienced professionals in the market.
+
+This analysis suggests that pursuing senior roles in data science or engineering offers significant earning potential, and specialization as a Data Scientist or Engineer may lead to higher variability and opportunities for top earnings.
+
+## 4. Highest Paid & Most Demanded Skills for Data Analysts
 
 Next, I narrowed my analysis and focused only on data analyst roles. I looked at the highest-paid skills and the most in-demand skills. I used two bar charts to showcase these.
+
+View my notebook with detailed steps here: [5_Salary_VS_Skill_Analysis](3_Project/5_Salary_VS_Skill_Analysis.ipynb).
 
 #### Visualize Data
 
 ```python
 
 fig, ax = plt.subplots(2, 1)
+sns.set_theme(style="ticks")
 
-# Top 10 Highest Paid Skills for Data Analysts
-sns.barplot(data=df_DA_top_pay, x='median', y=df_DA_top_pay.index, hue='median', ax=ax[0], palette='dark:b_r')
+sns.barplot(
+  df_top_paying_skills,
+  x="median",
+  y=df_top_paying_skills.index,
+  hue="median",
+  palette="dark:b_r",
+  ax=ax[0],
+  legend=False
+)
+ax[0].set_title("Top 10 Highest Paid Skills for Data Analysts")
+ax[0].set_ylabel("")
+ax[0].set_xlabel("")
+ax[0].xaxis.set_major_formatter(plt.FuncFormatter(lambda val, _: f"${int(val/1000)}K"))
 
-# Top 10 Most In-Demand Skills for Data Analystsr')
-sns.barplot(data=df_DA_skills, x='median', y=df_DA_skills.index, hue='median', ax=ax[1], palette='light:b')
+sns.barplot(
+  df_top_asked_skills,
+  x="median",
+  y=df_top_asked_skills.index,
+  hue="median",
+  palette="light:b",
+  ax=ax[1],
+  legend=False
+)
+ax[1].set_title("Top 10 Most In-Deman Skills for Data Analysts")
+ax[1].set_ylabel("")
+ax[1].set_xlabel("Median Salary (USD)")
+ax[1].xaxis.set_major_formatter(plt.FuncFormatter(lambda val, _: f"${int(val/1000)}K"))
+
+plt.tight_layout()
 
 plt.show()
 
@@ -200,10 +261,10 @@ plt.show()
 
 #### Results
 
-Here's the breakdown of the highest-paid & most in-demand skills for data analysts in the US:
+Here's the breakdown of the highest-paid & most in-demand skills for data analysts in Germany:
 
-![The Highest Paid & Most In-Demand Skills for Data Analysts in the US](images/Highest_Paid_and_Most_In_Demand_Skills_for_Data_Analysts_in_the_US.png)
-_Two separate bar graphs visualizing the highest paid skills and most in-demand skills for data analysts in the US._
+![The Highest Paid & Most In-Demand Skills for Data Analysts in Germany](3_Project/images/Highest_Paid_and_Most_In_Demand_Skills_for_Data_Analysts_in_Germany.png)
+_Two separate bar graphs visualizing the highest paid skills and most in-demand skills for data analysts in Germany._
 
 #### Insights:
 
@@ -213,11 +274,11 @@ _Two separate bar graphs visualizing the highest paid skills and most in-demand 
 
 - There's a clear distinction between the skills that are highest paid and those that are most in-demand. Data analysts aiming to maximize their career potential should consider developing a diverse skill set that includes both high-paying specialized skills and widely demanded foundational skills.
 
-## 4. What are the most optimal skills to learn for Data Analysts?
+## 5. What are the most optimal skills to learn for Data Analysts?
 
 To identify the most optimal skills to learn ( the ones that are the highest paid and highest in demand) I calculated the percent of skill demand and the median salary of these skills. To easily identify which are the most optimal skills to learn.
 
-View my notebook with detailed steps here: [5_Optimal_Skills](5_Optimal_Skills.ipynb).
+View my notebook with detailed steps here: [6_Optimal_Skills](3_Project/6_Optimal_Skills.ipynb).
 
 #### Visualize Data
 
@@ -232,16 +293,16 @@ plt.show()
 
 #### Results
 
-![Most Optimal Skills for Data Analysts in the US](images/Most_Optimal_Skills_for_Data_Analysts_in_the_US.png)  
-_A scatter plot visualizing the most optimal skills (high paying & high demand) for data analysts in the US._
+![Most Optimal Skills for Data Analysts in Germany](3_Project/images/Most_Optimal_Skills_for_Data_Analysts_in_Germany.png)  
+_A scatter plot visualizing the most optimal skills (high paying & high demand) for data analysts in Germany._
 
 #### Insights:
 
-- The skill `Oracle` appears to have the highest median salary of nearly $97K, despite being less common in job postings. This suggests a high value placed on specialized database skills within the data analyst profession.
+- The skill `Github` appears to have the highest median salary of nearly $200K, despite being less common in job postings. This suggests a high value placed on version-control skills within the data analyst profession.
 
-- More commonly required skills like `Excel` and `SQL` have a large presence in job listings but lower median salaries compared to specialized skills like `Python` and `Tableau`, which not only have higher salaries but are also moderately prevalent in job listings.
+- More commonly required skills like `SQL` have a large presence in job listings but lower median salaries compared to specialized skills like `Python`, which not only have higher salaries but are also moderately prevalent in job listings.
 
-- Skills such as `Python`, `Tableau`, and `SQL Server` are towards the higher end of the salary spectrum while also being fairly common in job listings, indicating that proficiency in these tools can lead to good opportunities in data analytics.
+- Skills such as `Python`, `Tableau` are towards the higher end of the salary spectrum while also being fairly common in job listings, indicating that proficiency in these tools can lead to good opportunities in data analytics.
 
 ### Visualizing Different Techonologies
 
@@ -267,16 +328,26 @@ plt.show()
 
 #### Results
 
-![Most Optimal Skills for Data Analysts in the US with Coloring by Technology](images/Most_Optimal_Skills_for_Data_Analysts_in_the_US_with_Coloring_by_Technology.png)  
-_A scatter plot visualizing the most optimal skills (high paying & high demand) for data analysts in the US with color labels for technology._
+![Most Optimal Skills for Data Analysts in Germany with Coloring by Technology](3_Project/images/Most_Optimal_Skills_for_Data_Analysts_in_Germany_with_Coloring_by_Technology.png)  
+_A scatter plot visualizing the most optimal skills (high paying & high demand) for data analysts in Germany with color labels for technology._
 
 #### Insights:
 
-- The scatter plot shows that most of the `programming` skills (colored blue) tend to cluster at higher salary levels compared to other categories, indicating that programming expertise might offer greater salary benefits within the data analytics field.
+- High Salary, Low Demand:
 
-- The database skills (colored orange), such as Oracle and SQL Server, are associated with some of the highest salaries among data analyst tools. This indicates a significant demand and valuation for data management and manipulation expertise in the industry.
+  GitHub and GCP command the highest median salaries (~$200K and ~$160K, respectively) but are required in relatively few job postings, indicating they are niche, high-value skills.
 
-- Analyst tools (colored green), including Tableau and Power BI, are prevalent in job postings and offer competitive salaries, showing that visualization and data analysis software are crucial for current data roles. This category not only has good salaries but is also versatile across different types of data tasks.
+- High Demand, Moderate Salary:
+
+  SQL and Python are in the highest demand (appearing in ~40%-50% of postings) but offer median salaries around $100K–$120K, reflecting their foundational role in the field.
+
+- Balanced Skills:
+
+  Tools like Spark, Tableau, and pandas strike a balance between salary (~$120K) and moderate demand (~20%-30%), making them valuable additions to a data analyst’s skillset.
+
+- Low Demand, Lower Salary:
+
+  Skills like Go and Looker have low demand (<10%) and the lowest salaries (<$70K), indicating they are less critical for most data analyst roles in Germany.
 
 # What I Learned
 
